@@ -430,6 +430,27 @@
         self._refreshGatewayOverlays();
       }
     });
+
+    this.eventBus.on('diagram.destroy', function() {
+      self.running = false;
+      self.paused = false;
+      if (self.rafId && typeof cancelAnimationFrame === 'function') {
+        cancelAnimationFrame(self.rafId);
+        self.rafId = null;
+      }
+      if (self._escHandler && typeof document !== 'undefined') {
+        document.removeEventListener('keydown', self._escHandler);
+      }
+    });
+
+    if (typeof document !== 'undefined') {
+      this._escHandler = function(ev) {
+        if (ev.key === 'Escape' && self.valPanel && self.valPanel.style.display !== 'none') {
+          self.valPanel.style.display = 'none';
+        }
+      };
+      document.addEventListener('keydown', this._escHandler);
+    }
     // NOTE: We intentionally do NOT hijack `element.click` on StartEvents!
     // Clicking shapes on the canvas always opens Camunda Modeler's normal selection & Context Pad.
   };
@@ -1021,7 +1042,7 @@
         badge.title = 'Activity Dwell Time (Click to change processing duration)';
         badge.addEventListener('click', function(ev) {
           ev.stopPropagation();
-          var cycle = [5, 10, 15, 20, 25, 30, 35, 40, 45, 60];
+          var cycle = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 60, 90, 120];
           var nextIdx = (cycle.indexOf(mins) + 1) % cycle.length;
           self.customDwellMinutes[el.id] = cycle[nextIdx];
           self._refreshGatewayOverlays();
