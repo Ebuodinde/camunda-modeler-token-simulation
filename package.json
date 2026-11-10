@@ -1,0 +1,16 @@
+{
+  "name": "camunda-modeler-token-simulation",
+  "version": "1.0.0",
+  "description": "BPMN 2.0 Token Simulation and Schema Validation plugin for Camunda Modeler v4.7",
+  "main": "index.js",
+  "keywords": [
+    "bpmn",
+    "bpmn-js",
+    "camunda-modeler",
+    "camunda-modeler-plugin",
+    "token-simulation",
+    "validation"
+  ],
+  "author": "Sahin Uygutalp",
+  "license": "MIT"
+}
